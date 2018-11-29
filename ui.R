@@ -28,13 +28,9 @@ ui <- fluidPage(
     
     # Sidebar panel for inputs ----
     sidebarPanel(
-      
-      #shinythemes::themeSelector(),
-      
-      img(src='Mainformatics_1.png', height = 79, width = 187, align = "right"),
-      
+
       # Input: Select a file --
-      fileInput("file1", "Upload .CSV-bestand met data",
+      fileInput("file1", "Upload .CSV-file with data",
                 multiple = FALSE,
                 accept = c("text/csv",
                            "text/comma-separated-values,text/plain",
@@ -51,12 +47,12 @@ ui <- fluidPage(
       tags$hr(),
       
       # Input: Checkbox wel of geen titel ----
-      checkboxInput("header", "Inclusief titel", TRUE),
+      checkboxInput("header", "Including title", TRUE),
       
       # Input: Decimaal  ----
-      radioButtons("sep", "Kolom scheidingsteken",
-                   choices = c(Puntkomma = ";",
-                               Komma = ",",
+      radioButtons("sep", "Column separator",
+                   choices = c(Semicolon = ";",
+                               Comma = ",",
                                Tab = "\t"),
                    selected = ";"),
      
@@ -65,12 +61,12 @@ ui <- fluidPage(
       
       # Input: Datums interval ----
       dateInput('Begindatum',
-                label = 'Begindatum',
+                label = 'Start date',
                 value = Sys.Date()-3*365,
                 format = "dd-mm-yyyy"
       ),
       dateInput('Einddatum',
-                label = 'Einddatum',
+                label = 'End date',
                 value = Sys.Date(),
                 format = "dd-mm-yyyy"
       ),   
@@ -80,10 +76,10 @@ ui <- fluidPage(
       # Input: Trendinterval ----
       radioButtons("JK_interval", "Trendinterval",
                    choices = c(Week = "Week",
-                               Maand = 'Maand',
-                               Kwartaal = "Kwartaal",
-                               Jaar = "Jaar",
-                               Compleet = "Compleet"),
+                               Month = 'Maand',
+                               Quarter = "Kwartaal",
+                               Year = "Jaar",
+                               Complete = "Compleet"),
                    selected = 'Compleet')
 
 
@@ -96,9 +92,10 @@ ui <- fluidPage(
       
       # Output: Tabset w/ plot, summary, and table ----
       tabsetPanel(type = "tabs",
-                  tabPanel("Gegevens", tableOutput("JK_data_upload")),
-                  tabPanel("Samenvatting", tableOutput("samenvatting")),
-                  tabPanel("Jackknife", plotOutput("plot_jk_tr"))
+                  tabPanel("Data", tableOutput("JK_data_upload")),
+                  tabPanel("Summary", tableOutput("samenvatting")),
+                  tabPanel("Jackknife", plotOutput("plot_jk_tr")),
+                  tabPanel("Manual", htmlOutput("manual"))
                  )
    )
   )
